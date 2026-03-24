@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kar Auto Studio — Cardápio de Serviços</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --bg2: #ede8de;
+    --card: #faf7f2;
+    --black: #0d0d0d;
+    --brown: #2a1f14;
+    --gold: #b8924a;
+    --gold2: #8a6a2e;
+    --rust: #a04a2a;
+    --muted: #7a6e62;
+    --border: #d8d0c0;
+    --light: #e8e0d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--brown);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* DECORATIVE LINES */
+  .deco-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.5;
+    margin: 0;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--brown);
+    padding: 52px 40px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,146,74,0.15) 0%, transparent 70%);
+  }
+  .header-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .ornament-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .ornament-line.right {
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+  .ornament-diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .header-sub-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.9;
+  }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    letter-spacing: 6px;
+    color: #f5f0e8;
+    line-height: 0.9;
+  }
+  header h1 span { color: var(--gold); }
+  .header-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(245,240,232,0.5);
+    margin-top: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* CONTENT */
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SECTION */
+  .section {
+    margin-top: 48px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.1s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.2s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .section-icon {
+    width: 40px; height: 40px;
+    background: var(--brown);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: var(--brown);
+  }
+  .section-title-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* SERVICE CARD */
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .service-card:hover {
+    box-shadow: 0 4px 24px rgba(42,31,20,0.08);
+    border-color: var(--gold);
+  }
+
+  /* SINGLE ITEM */
+  .service-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    gap: 16px;
+  }
+  .service-row + .service-row {
+    border-top: 1px solid var(--light);
+  }
+  .service-info { flex: 1; }
+  .service-name {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--brown);
+  }
+  .service-detail {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+  }
+  .service-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--gold2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .service-price.orcamento {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--rust);
+    background: rgba(160,74,42,0.08);
+    border: 1px solid rgba(160,74,42,0.2);
+    padding: 4px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+
+  /* GROUPED CARD (bancos) */
+  .card-label {
+    background: var(--brown);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-label-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #f5f0e8;
+  }
+  .card-label-sub {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  /* TETO GRID */
+  .teto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .teto-item {
+    padding: 18px 16px;
+    text-align: center;
+    border-right: 1px solid var(--light);
+  }
+  .teto-item:last-child { border-right: none; }
+  .teto-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .teto-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--gold2);
+  }
+  .teto-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 100px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge-top {
+    background: rgba(184,146,74,0.12);
+    color: var(--gold2);
+    border: 1px solid rgba(184,146,74,0.3);
+  }
+  .badge-popular {
+    background: rgba(160,74,42,0.1);
+    color: var(--rust);
+    border: 1px solid rgba(160,74,42,0.2);
+  }
+
+  /* DIFERENCIAIS */
+  .diffs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 500px) { .diffs { grid-template-columns: 1fr; } }
+  .diff-card {
+    background: var(--brown);
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .diff-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+  .diff-icon { font-size: 28px; margin-bottom: 10px; }
+  .diff-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .diff-desc {
+    font-size: 12.5px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.5;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+  }
+
+  /* PAGAMENTO */
+  .payment-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .pay-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: var(--brown);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+  }
+  .pay-note {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* CONTACT */
+  .contact-bar {
+    background: var(--brown);
+    border-radius: 16px;
+    padding: 28px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 0% 50%, rgba(184,146,74,0.12) 0%, transparent 60%);
+  }
+  .contact-info { position: relative; }
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .contact-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 3px;
+    color: #f5f0e8;
+    line-height: 1;
+  }
+  .contact-details {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .contact-detail {
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.65);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .contact-detail span { color: var(--gold); font-size: 14px; }
+  .contact-cta {
+    position: relative;
+    background: var(--gold);
+    color: var(--brown);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .contact-cta:hover {
+    background: #c8a05a;
+    transform: translateY(-1px);
+  }
+
+  /* FOOTER */
+  .footer-line {
+    text-align: center;
+    padding: 24px 24px 0;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 520px) {
+    header { padding: 40px 24px 36px; }
+    .teto-grid { grid-template-columns: 1fr; }
+    .teto-item { border-right: none; border-bottom: 1px solid var(--light); }
+    .teto-item:last-child { border-bottom: none; }
+    .contact-bar { flex-direction: column; text-align: center; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-sub-label">Cardápio de Serviços</div>
+  <div class="header-ornament">
+    <div class="ornament-line"></div>
+    <div class="ornament-diamond"></div>
+    <div class="ornament-line right"></div>
+  </div>
+  <h1>KAR <span>AUTO</span><br>STUDIO</h1>
+  <p class="header-tagline">Transformação com qualidade, prazo e garantia</p>
+</header>
+<div class="deco-line"></div>
+
+<div class="page">
+
+  <!-- BANCOS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🪑</div>
+      <span class="section-title">Bancos</span>
+      <div class="section-title-line"></div>
+    </div>
+
+    <!-- Faixas -->
+    <div class="service-card">
+      <div class="card-label">
+        <span class="card-label-text">Faixas de Banco</span>
+        <span class="card-label-sub">por faixa</span>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Faixa em Tecido</div>
+          <div class="service-detail">Variedade de cores e tramas disponíveis</div>
+        </div>
+        <div class="service-price">R$ 100</div>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Faixa em Couro Sintético</div>
+          <div class="service-detail">Durável, fácil de limpar e com ótimo acabamento</div>
+        </div>
+        <div class="service-price">R$ 80</div>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Couro Legítimo, Alcântara e Tecidos Premium <span class="badge badge-top">TOP</span></div>
+          <div class="service-detail">Materiais selecionados de alta linha</div>
+        </div>
+        <div class="service-price orcamento">Orçamento</div>
+      </div>
+    </div>
+
+    <!-- Jogo completo -->
+    <div class="service-card">
+      <div class="card-label">
+        <span class="card-label-text">Jogo de Banco Completo</span>
+        <span class="card-label-sub">todos os bancos</span>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Couro Sintético <span class="badge badge-popular">Popular</span></div>
+          <div class="service-detail">Resultado premium com custo acessível</div>
+        </div>
+        <div class="service-price">R$ 900</div>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Tecido</div>
+          <div class="service-detail">Conforto térmico superior, ideal para uso diário</div>
+        </div>
+        <div class="service-price">R$ 1.300</div>
+      </div>
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Personalizado <span class="badge badge-top">TOP</span></div>
+          <div class="service-detail">Bicolor, costura decorativa, bordados e acabamentos únicos</div>
+        </div>
+        <div class="service-price orcamento">Orçamento</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TETO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🚗</div>
+      <span class="section-title">Revestimento de Teto</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="service-card">
+      <div class="teto-grid">
+        <div class="teto-item">
+          <div class="teto-type">Hatch</div>
+          <div class="teto-price">R$ 600</div>
+          <div class="teto-label">Gol, HB20, Ônix e similares</div>
+        </div>
+        <div class="teto-item">
+          <div class="teto-type">Sedan</div>
+          <div class="teto-price">R$ 800</div>
+          <div class="teto-label">Civic, Corolla, Cronos e similares</div>
+        </div>
+        <div class="teto-item">
+          <div class="teto-type">SUV</div>
+          <div class="teto-price">R$ 1.000</div>
+          <div class="teto-label">Renegade, Compass, T-Cross e similares</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLÁSTICOS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <span class="section-title">Troca de Cor dos Plásticos</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="service-card">
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Plásticos Laterais Internos</div>
+          <div class="service-detail">Renovação completa da cor dos frisos e painéis laterais</div>
+        </div>
+        <div class="service-price">a partir de R$ 350</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGIENIZAÇÃO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">✨</div>
+      <span class="section-title">Higienização Interna</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="service-card">
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Higienização Completa</div>
+          <div class="service-detail">Limpeza profunda de banco, tapetes, teto, painel e frisos — sem manchas, sem odores</div>
+        </div>
+        <div class="service-price">a partir de R$ 150</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🛞</div>
+      <span class="section-title">Personalização de Painel</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="service-card">
+      <div class="service-row">
+        <div class="service-info">
+          <div class="service-name">Painel Personalizado <span class="badge badge-top">TOP</span></div>
+          <div class="service-detail">Revestimento sob medida com materiais e acabamentos à sua escolha</div>
+        </div>
+        <div class="service-price orcamento">Orçamento</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIFERENCIAIS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">⭐</div>
+      <span class="section-title">Por que a Kar?</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="diffs">
+      <div class="diff-card">
+        <div class="diff-icon">⏱️</div>
+        <div class="diff-title">Prazo</div>
+        <div class="diff-desc">Entrega no combinado, sempre. Você planeja, a gente cumpre.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🏆</div>
+        <div class="diff-title">Qualidade</div>
+        <div class="diff-desc">Materiais selecionados e acabamento que você vai sentir diferença.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🛡️</div>
+        <div class="diff-title">Garantia</div>
+        <div class="diff-desc">Todo serviço tem garantia. Tranquilidade do início ao fim.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGAMENTO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">💳</div>
+      <span class="section-title">Formas de Pagamento</span>
+      <div class="section-title-line"></div>
+    </div>
+    <div class="payment-row">
+      <div class="pay-chip">💵 Dinheiro</div>
+      <div class="pay-chip">📱 Pix</div>
+      <div class="pay-chip">💳 Crédito</div>
+      <div class="pay-chip">💳 Débito</div>
+    </div>
+    <p class="pay-note">* Cartões somente por aproximação (NFC) &nbsp;·&nbsp; Entrada de 50% para confirmação do agendamento</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-bar">
+    <div class="contact-info">
+      <div class="contact-label">Fale com a gente</div>
+      <div class="contact-name">KAR AUTO STUDIO</div>
+      <div class="contact-details">
+        <div class="contact-detail"><span>📱</span> (47) 99690-1904</div>
+        <div class="contact-detail"><span>📸</span> @kar.auto.studio</div>
+      </div>
+    </div>
+    <a href="https://wa.me/5547996901904?text=Olá!%20Vi%20o%20cardápio%20e%20gostaria%20de%20um%20orçamento." class="contact-cta">PEDIR ORÇAMENTO</a>
+  </div>
+
+  <div class="footer-line">
+    Kar Auto Studio &nbsp;·&nbsp; Preços sujeitos a alteração conforme modelo do veículo
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>
